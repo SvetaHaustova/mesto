@@ -26,51 +26,51 @@
                     </div>
                     <p class="profile__profession">Исследователь океана</p>
                 </div>
-                <button class="profile__add-button"></button>
+                <button class="profile__add-button" type="button"></button>
             </section>
             
             <section class="elements">
                 <ul class="elements__list">
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/elements/karachaevsk.jpg" alt="Фото Карачаевск">
-                        <div class="elements__description">
-                            <h2 class="elements__title">Карачаевск</h2>
-                            <button class="elements__like"></button>
+                    <li class="place">
+                        <img class="place__photo" src="./images/elements/karachaevsk.jpg" alt="Фото Карачаевск">
+                        <div class="place__description">
+                            <h2 class="place__title">Карачаевск</h2>
+                            <button class="place__like" type="button"></button>
                         </div>
                     </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/elements/elbrus.jpg" alt="Фото Эльбрус">
-                        <div class="elements__description">
-                            <h2 class="elements__title">Гора Эльбрус</h2>
-                            <button class="elements__like"></button>
+                    <li class="place">
+                        <img class="place__photo" src="./images/elements/elbrus.jpg" alt="Фото Эльбрус">
+                        <div class="place__description">
+                            <h2 class="place__title">Гора Эльбрус</h2>
+                            <button class="place__like" type="button"></button>
                         </div>
                     </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/elements/dombay.jpg" alt="Фото Домбай">
-                        <div class="elements__description">
-                            <h2 class="elements__title">Домбай</h2>
-                            <button class="elements__like"></button>
+                    <li class="place">
+                        <img class="place__photo" src="./images/elements/dombay.jpg" alt="Фото Домбай">
+                        <div class="place__description">
+                            <h2 class="place__title">Домбай</h2>
+                            <button class="place__like" type="button"></button>
                         </div>
                     </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/elements/elbrus.jpg" alt="Фото Эльбрус">
-                        <div class="elements__description">
-                            <h2 class="elements__title">Гора Эльбрус</h2>
-                            <button class="elements__like"></button>
+                    <li class="place">
+                        <img class="place__photo" src="./images/elements/elbrus.jpg" alt="Фото Эльбрус">
+                        <div class="place__description">
+                            <h2 class="place__title">Гора Эльбрус</h2>
+                            <button class="place__like" type="button"></button>
                         </div>
                     </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/elements/dombay.jpg" alt="Фото Домбай">
-                        <div class="elements__description">
-                            <h2 class="elements__title">Домбай</h2>
-                            <button class="elements__like"></button>
+                    <li class="place">
+                        <img class="place__photo" src="./images/elements/dombay.jpg" alt="Фото Домбай">
+                        <div class="place__description">
+                            <h2 class="place__title">Домбай</h2>
+                            <button class="place__like" type="button"></button>
                         </div>
                     </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/elements/karachaevsk.jpg" alt="Фото Карачаевск">
-                        <div class="elements__description">
-                            <h2 class="elements__title">Карачаево-Черкессия</h2>
-                            <button class="elements__like"></button>
+                    <li class="place">
+                        <img class="place__photo" src="./images/elements/karachaevsk.jpg" alt="Фото Карачаевск">
+                        <div class="place__description">
+                            <h2 class="place__title">Карачаево-Черкессия</h2>
+                            <button class="place__like" type="button"></button>
                         </div>
                     </li>
                 </ul>
@@ -86,12 +86,12 @@
 
     <div class="popup">
         <div class="popup__content">
-            <button class="popup__close-icon"></button>
+            <button class="popup__close-icon" type="button"></button>
             <h3 class="popup__title">Редактировать профиль</h3>
-            <form class="popup__form">
-                <input class="popup__field-name">
-                <input class="popup__field-profession">
-                <button class="popup__save-button" type='submit'>Сохранить</button>
+            <form class="popup__form" name="edit-form">
+                <input class="popup__input popup__input_type_name" type="text" name="name">
+                <input class="popup__input popup__input_type_profession" type="text" name="profession">
+                <button class="popup__save-button" type="submit">Сохранить</button>
             </form>
         </div>
     </div>

@@ -4,7 +4,7 @@
     right: -42px;
     width: 40px;
     height: 40px;
-    background: url(../../../images/popup/Close-Icon.svg) no-repeat center;
+    background: url(../../../images/popup/close-icon-1280.svg) no-repeat center;
     border: none;
     padding: 0;
     outline: none;
@@ -17,6 +17,7 @@
 
 @media screen and (max-width: 1024px) {
     .popup__close-icon {
+        background: url(../../../images/popup/close-icon-320.svg) no-repeat center;
         width: 20px;
         height: 20px;
         top: -45px;

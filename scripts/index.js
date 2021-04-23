@@ -1,3 +1,5 @@
+//В итоге я поняла, что при исправлении усложнила код. Надеюсь, что теперь всё верно, спасибо за пояснения! :)
+
 //ПЕРЕМЕННЫЕ
 
 //Переменные Popup Profile Edit
@@ -17,29 +19,13 @@ let profileProfession = document.querySelector('.profile__profession');
 
 //ФУНКЦИИ
 
-//Добавить класс открытия для Popup
+//Добавить класс открытия/закрытия для Popup. Занести текущие значения полей Profile в поля Popup Profile Edit при открытии
 
 function addPopupClass() {
     popupProfileEdit.classList.toggle('popup_opened');
-}
-
-//Открыть Popup Profile Edit и занести текущие значения полей Profile в поля Popup Profile Edit
-
-function openPopupEdit() {
     if (popupProfileEdit.classList.contains('popup_opened')) {
         popupName.value = profileName.textContent;
         popupProfession.value = profileProfession.textContent;
-    } else {
-        addPopupClass();
-        openPopupEdit()
-    }
-}
-
-//Закрыть Popup Profile Edit без сохранения данных
-
-function closePopupEdit() {
-    if (popupProfileEdit.classList.contains('popup_opened')) {
-        addPopupClass();
     }
 }
 
@@ -49,7 +35,7 @@ function editProfile(evt) {
     evt.preventDefault();
     profileName.textContent = popupName.value;
     profileProfession.textContent = popupProfession.value;
-    closePopupEdit();
+    addPopupClass();
 }
 
 
@@ -57,11 +43,11 @@ function editProfile(evt) {
 
 //Открыть Popup Profile Edit
 
-openPopupProfileEdit.addEventListener('click', openPopupEdit);
+openPopupProfileEdit.addEventListener('click', addPopupClass);
 
 //Закрыть Popup Profile Edit
 
-closePopupProfileEdit.addEventListener('click', closePopupEdit);
+closePopupProfileEdit.addEventListener('click', addPopupClass);
 
 //Сохранить отредактированные данные и закрыть Popup Profile Edit
 

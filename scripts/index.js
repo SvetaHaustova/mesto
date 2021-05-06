@@ -1,32 +1,3 @@
-//МАССИВ
-
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
 //ПЕРЕМЕННЫЕ
 
 //Переменные для Popup Profile Edit
@@ -72,14 +43,14 @@ const elementsList = document.querySelector('.elements__list');
 
 //Добавить/удалить класс открытия для всех popup
 
-function addPopupClass(popup) {
+function togglePopupClass(popup) {
     popup.classList.toggle('popup_opened');
 }
 
 //Открыть Popup Profile Edit и заполнить текущими значениями полей Profile
 
 function openPopupEdit() {
-    addPopupClass(popupProfileEdit);
+    togglePopupClass(popupProfileEdit);
     if (popupProfileEdit.classList.contains('popup_opened')) {
         popupName.value = profileName.textContent;
         popupProfession.value = profileProfession.textContent;
@@ -92,21 +63,21 @@ function editProfile(evt) {
     evt.preventDefault();
     profileName.textContent = popupName.value;
     profileProfession.textContent = popupProfession.value;
-    addPopupClass(popupProfileEdit);
+    togglePopupClass(popupProfileEdit);
 }
 
 //Открыть Popup Add Place без сохранения ранее введенных значений в поля формы
 
 function openPopupPlace() {
-    addPopupClass(popupAddPlace);
+    togglePopupClass(popupAddPlace);
     formPopupAddPlace.reset();
 }
 
 //Открыть Popup View
 
 function openPopupView() {
-    addPopupClass(popupView);
-};
+    togglePopupClass(popupView);
+}
 
 //Лайкнуть фото места
 
@@ -131,6 +102,7 @@ function createPlace(name, link) {
 
     placeTitle.textContent = name;
     placePhoto.src = link;
+    placePhoto.alt = name;
 
     likeButton.addEventListener('click', likePlace);
     deleteButton.addEventListener('click', removePlace);
@@ -138,11 +110,12 @@ function createPlace(name, link) {
     placePhoto.addEventListener('click', function () { 
         openPopupView();
         popupPlacePhoto.src = placePhoto.src;
+        popupPlacePhoto.alt = placePhoto.alt;
         popupPlaceTitle.textContent = placeTitle.textContent;
     });
     
     return newPlace;
-};
+}
 
 //Вывести массив карточек на страницу
 
@@ -158,7 +131,7 @@ function addPlace(evt) {
     const newCard = createPlace(popupTitle.value, popupLink.value);
     elementsList.prepend(newCard);
     openPopupPlace();
-};
+}
 
 
 //СЛУШАТЕЛИ

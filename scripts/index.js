@@ -41,10 +41,20 @@ const elementsList = document.querySelector('.elements__list');
 
 //ФУНКЦИИ
 
-//Добавить/удалить класс открытия для всех popup
+//Добавить/удалить класс открытия для всех popup. Закрыть Popup через кнопку Esc и Overlay
 
 function togglePopupClass(popup) {
     popup.classList.toggle('popup_opened');
+    document.addEventListener('keydown', function(evt) {
+        if (evt.key === 'Escape') {
+            togglePopupClass(popup);
+        }
+    });
+    popup.addEventListener('click', function(evt) {
+        if (evt.target === evt.currentTarget) {
+            togglePopupClass(popup);
+        }
+    });
 }
 
 //Открыть Popup Profile Edit и заполнить текущими значениями полей Profile

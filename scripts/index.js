@@ -37,11 +37,18 @@ const popups = document.querySelectorAll('.popup');
 
 //ФУНКЦИИ
 
+//Создать карточку
+
+function createCard(name, link, cardSelector) {
+    const newCard = new Card(name, link, cardSelector);
+    const cardElement = newCard.generateCard();
+    return cardElement;
+}
+
 //Вывести массив карточек на страницу
 
 initialCards.forEach((item) => {
-    const newCard = new Card(item.name, item.link, '#place-template');
-    const cardElement = newCard.generateCard();
+    const cardElement = createCard(item.name, item.link, '#place-template');
     elementsList.prepend(cardElement);
 });
 
@@ -84,6 +91,7 @@ function openPopupEdit() {
         popupName.value = profileName.textContent;
         popupProfession.value = profileProfession.textContent;
     }
+    validFormPopupProfileEdit.resetErrorElement();
 }
 
 //Сохранить отредактированные данные и закрыть Popup Profile Edit
@@ -108,8 +116,7 @@ function openPopupPlace() {
 
 function addPlace(evt) {
     evt.preventDefault();
-    const newCard = new Card(popupTitle.value, popupLink.value, '#place-template');
-    const cardElement = newCard.generateCard();
+    const cardElement = createCard(popupTitle.value, popupLink.value, '#place-template');
     elementsList.prepend(cardElement);
     closePopup(popupAddPlace);
 }

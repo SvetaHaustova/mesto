@@ -1,12 +1,12 @@
+//Импорт для открытия Popup View
+
+import { openPopup } from './index.js';
+
 //Переменные для Popup View
 
 const popupView = document.querySelector('.popup_type_view');
 const popupPlacePhoto = popupView.querySelector('.popup__place-photo');
 const popupPlaceTitle = popupView.querySelector('.popup__place-title');
-
-//Импорт для открытия Popup View
-
-import { openPopup } from './index.js';
 
 //Класс для создания карточки места
 
@@ -24,17 +24,21 @@ export class Card {
     
     generateCard() {
         this._element = this._getTemplate();
+        this._placePhoto = this._element.querySelector('.place__photo');
+        this._placeTitle = this._element.querySelector('.place__title');
+        this._likeButton = this._element.querySelector('.place__like');
+        this._deleteButton = this._element.querySelector('.place__delete-button');
         this._setEventListeners();
 
-        this._element.querySelector('.place__title').textContent = this._name;
-        this._element.querySelector('.place__photo').src = this._link;
-        this._element.querySelector('.place__photo').alt = this._name;
+        this._placeTitle.textContent = this._name;
+        this._placePhoto.src = this._link;
+        this._placePhoto.alt = this._name;
 
         return this._element;
     }
 
     _likePlace() {
-        this._element.querySelector('.place__like').classList.toggle('place__like_active');
+        this._likeButton.classList.toggle('place__like_active');
     }
 
     _removePlace() {
@@ -43,19 +47,19 @@ export class Card {
 
     _openPlace() {
         openPopup(popupView);
-        popupPlacePhoto.src = this._element.querySelector('.place__photo').src;
-        popupPlacePhoto.alt = this._element.querySelector('.place__photo').alt;
-        popupPlaceTitle.textContent = this._element.querySelector('.place__title').textContent;
+        popupPlacePhoto.src = this._link;
+        popupPlacePhoto.alt = this._name;
+        popupPlaceTitle.textContent = this._name;
     }
 
     _setEventListeners() {
-        this._element.querySelector('.place__like').addEventListener('click', () => {
+        this._likeButton.addEventListener('click', () => {
             this._likePlace();
         });
-        this._element.querySelector('.place__delete-button').addEventListener('click', () => {
+        this._deleteButton.addEventListener('click', () => {
             this._removePlace();
         });
-        this._element.querySelector('.place__photo').addEventListener('click', () => {
+        this._placePhoto.addEventListener('click', () => {
             this._openPlace();
         });
         

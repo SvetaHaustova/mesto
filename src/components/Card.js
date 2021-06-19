@@ -1,20 +1,9 @@
-//Импорт для открытия Popup View
-
-import { openPopup } from './index.js';
-
-//Переменные для Popup View
-
-const popupView = document.querySelector('.popup_type_view');
-const popupPlacePhoto = popupView.querySelector('.popup__place-photo');
-const popupPlaceTitle = popupView.querySelector('.popup__place-title');
-
-//Класс для создания карточки места
-
 export class Card {
-    constructor(name, link, cardSelector) {
+    constructor({ title, link }, cardSelector, handleCardClick) {
         this._cardSelector = cardSelector;
-        this._name = name;
+        this._title = title;
         this._link = link;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -30,9 +19,9 @@ export class Card {
         this._deleteButton = this._element.querySelector('.place__delete-button');
         this._setEventListeners();
 
-        this._placeTitle.textContent = this._name;
+        this._placeTitle.textContent = this._title;
         this._placePhoto.src = this._link;
-        this._placePhoto.alt = this._name;
+        this._placePhoto.alt = this._title;
 
         return this._element;
     }
@@ -45,13 +34,6 @@ export class Card {
         this._element.closest('.place').remove();
     }
 
-    _openPlace() {
-        openPopup(popupView);
-        popupPlacePhoto.src = this._link;
-        popupPlacePhoto.alt = this._name;
-        popupPlaceTitle.textContent = this._name;
-    }
-
     _setEventListeners() {
         this._likeButton.addEventListener('click', () => {
             this._likePlace();
@@ -60,7 +42,7 @@ export class Card {
             this._removePlace();
         });
         this._placePhoto.addEventListener('click', () => {
-            this._openPlace();
+            this._handleCardClick(this._element);
         });
         
     }

@@ -3,11 +3,11 @@ import './index.css';
 import { 
     config,
     popupProfileEdit,
-    openPopupProfileEdit,
+    buttonOpenPopupProfileEdit,
     popupName,
     popupProfession,
     popupAddPlace,
-    openPopupAddPlace
+    buttonOpenPopupAddPlace
 } from '../utils/constants.js';
 import { initialCards } from '../utils/initialCards.js';
 import { Card } from '../components/Card.js';
@@ -46,7 +46,7 @@ const userInfo = new UserInfo(config);
 
 //Открыть Popup Profile Edit и заполнить текущими значениями полей Profile
 
-function openPopupEdit() {
+function openPopupProfileEdit() {
     popupEdit.openPopup();
     if (popupProfileEdit.classList.contains('popup_opened')) {
         const userInfoList = userInfo.getUserInfo();
@@ -58,14 +58,14 @@ function openPopupEdit() {
 
 //Сохранить отредактированные данные и закрыть Popup Profile Edit
 
-function editProfile(userInfoList) {
+function submitFormPopupProfileEdit(userInfoList) {
     userInfo.setUserInfo(userInfoList);
     popupEdit.closePopup();
 }
 
 //Открыть Popup Add Place без сохранения ранее введенных значений в поля формы и деактивировать кнопку Сохранить
 
-function openPopupPlace() {
+function openPopupAddPlace() {
     popupAdd.openPopup();
     validFormPopupAddPlace.toggleButtonState();
     validFormPopupAddPlace.resetErrorElement();
@@ -73,7 +73,7 @@ function openPopupPlace() {
 
 //Добавить карточку места на страницу через Popup Add Place
 
-function addPlace(data) {
+function submitFormPopupAddPlace(data) {
     const cardElement = createCard(data);
     cardList.addItem(cardElement);
     popupAdd.closePopup();
@@ -81,10 +81,10 @@ function addPlace(data) {
 
 //Создать Popups со слушателями
 
-const popupEdit = new PopupWithForm(editProfile, '.popup_type_edit');
+const popupEdit = new PopupWithForm(submitFormPopupProfileEdit, '.popup_type_edit');
 popupEdit.setEventListeners();
 
-const popupAdd = new PopupWithForm(addPlace, '.popup_type_add');
+const popupAdd = new PopupWithForm(submitFormPopupAddPlace, '.popup_type_add');
 popupAdd.setEventListeners();
 
 const popupImage = new PopupWithImage('.popup_type_view');
@@ -109,8 +109,8 @@ validFormPopupAddPlace.enableValidation();
 
 //Открыть Popup Profile Edit и заполнить текущими значениями полей Profile
 
-openPopupProfileEdit.addEventListener('click', openPopupEdit);
+buttonOpenPopupProfileEdit.addEventListener('click', openPopupProfileEdit);
 
 //Открыть Popup Add Place без сохранения ранее введенных значений в поля формы
 
-openPopupAddPlace.addEventListener('click', openPopupPlace);
+buttonOpenPopupAddPlace.addEventListener('click', openPopupAddPlace);

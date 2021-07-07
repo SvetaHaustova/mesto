@@ -30,7 +30,7 @@ export class Card {
             this._deleteButton.remove();
         }
         
-        //this._renderLikes();
+        this._renderLikes();
         this._setEventListeners();
 
         this._placeTitle.textContent = this._name;
@@ -61,8 +61,8 @@ export class Card {
     // Отобразить количество лайков
 
     renderLikes() {
-        this._likeCounter.textContent = likes.length;
-        this.showLikes();
+        this._likeCounter.textContent = this._likes.length;
+        this.showLikes(this._userId);
     }
 
     //_likeCard() {

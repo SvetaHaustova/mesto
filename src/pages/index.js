@@ -169,8 +169,8 @@ function submitFormPopupEditAvatar() {
 function submitPopupConfirm (cardElement) {
     popupConfirm.waitSubmitButton(true);
     api.deleteCard(cardElement._id)
-    .then(() => {
-        cardElement.removeCard();
+    .then((res) => {
+        cardElement.removeCard(res);
     })
     .catch((err) => {
         console.log(err);
@@ -214,13 +214,13 @@ function handleDeleteClick(cardElement) {
 function handleLikeClick(cardElement) {
     if (cardElement.likedCard()) {
         api.deleteLikeCard(cardElement._id)
-        .then((data) => {
-            cardElement.renderLikes(data)
+        .then((res) => {
+            cardElement.renderLikes(res)
         })
     } else {
         api.likeCard(cardElement._id)
-        .then((data) => {
-            cardElement.renderLikes(data)
+        .then((res) => {
+            cardElement.renderLikes(res)
         })
     }
 }

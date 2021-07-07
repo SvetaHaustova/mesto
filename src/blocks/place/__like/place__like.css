@@ -13,3 +13,10 @@
     cursor: pointer;
 }
 
+.place__like-counter {
+    margin: 0;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+}

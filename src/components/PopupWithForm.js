@@ -28,4 +28,17 @@ export class PopupWithForm extends Popup {
         super.closePopup();
         this._popupForm.reset();
     }
+
+//Изменение текста кнопки Сохранить, пока идет загрузка данных
+
+    waitSubmitButton(isLoading) {
+        this._popupSubmitButton = this._popup.querySelector('.popup__save-button');
+        this._popupSubmitButtonTextDefault = this._popupSubmitButton.value;
+        if (isLoading) {
+            this._popupSubmitButton.value = 'Сохранение';
+        } else {
+            this._closePopup();
+            this._popupSubmitButton.value = this._popupSubmitButtonTextDefault;
+        }
+    }
 }

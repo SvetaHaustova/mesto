@@ -3,7 +3,7 @@ export class Card {
         this._cardSelector = cardSelector;
         this._name = name;
         this._link = link;
-        this._ownerId = owner._id;
+        //this._ownerId = owner._id;
         this._likes = likes;
         this._userId = userId;
         this._handleCardClick = handleCardClick;
@@ -30,7 +30,7 @@ export class Card {
             this._deleteButton.remove();
         }
         
-        this._renderLikes();
+        //this._renderLikes();
         this._setEventListeners();
 
         this._placeTitle.textContent = this._name;

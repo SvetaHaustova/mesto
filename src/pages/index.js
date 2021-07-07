@@ -23,10 +23,12 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { Api } from '../components/Api.js';
 
 const formPopupAvatarEdit = document.querySelector('.popup__form_type_avatar');
-const profileName = document.querySelector(config.profileNameSelector);
-const profileProfession = document.querySelector(config.profileProfessionSelector);
-const profileAvatar = document.querySelector(config.profileAvatarSelector);
+//const profileName = document.querySelector(config.profileNameSelector);
+//const profileProfession = document.querySelector(config.profileProfessionSelector);
+//const profileAvatar = document.querySelector(config.profileAvatarSelector);
 const popupAvatar = document.querySelector('.popup__input_type_avatar');
+const popupPlaceTitle = document.querySelector('.popup__input_type_title');
+const popupPlaceLink = document.querySelector('.popup__input_type_link');
 const buttonOpenPopupAvatarEdit = document.querySelector('.profile__avatar-edit');
 const userId = 'a7473b4e-4df8-4060-a905-03a96de8bd8c';
 
@@ -42,16 +44,18 @@ const api = new Api({
     }
 });
 
-//Получить данные пользователя с сервера !!!Ошибка .name!!!
+//Получить данные пользователя с сервера
 
 api.getUserInfo()
-.then((users) => {
-    profileName.textContent = users.name;
-    profileProfession.textContent = users.about;
-    profileAvatar.src = users.avatar;
+.then((res) => {
+    userInfo.setUserInfo(res);
+    userInfo.setAvatar(res);
+})
+.catch((err) => {
+    console.log(err);
 })
 
-//Создать карточку ????
+//Создать карточку
 
 function createCard(data) {
     const newCard = new Card(data, '#place-template', userId, handleCardClick, handleLikeClick, handleDeleteClick);
@@ -59,19 +63,22 @@ function createCard(data) {
     return cardElement;
 }
 
-//Вывести массив карточек на страницу?????
+//Вывести массив карточек на страницу
 
 const cardList = new Section({
-    items: data, // !!!Ошибка!!!
     renderer: (item) => {
         const cardElement = createCard(item);
         cardList.addItem(cardElement);
     }
 }, '.elements__list');
 
+
 api.getInitialCards()
-.then(() => {
-    cardList.renderer()
+.then((res) => {
+    cardList.renderer(res)
+})
+.catch((err) => {
+    console.log(err);
 })
 
 //Сформировать объект с данными пользователя
@@ -105,29 +112,52 @@ function openPopupEditAvatar() {
 }
 
 //Сохранить отредактированные данные и закрыть Popup Profile Edit
-//Добавить Api !!!!!! ????
 
-function submitFormPopupProfileEdit(userInfoList) {
-    userInfo.setUserInfo(userInfoList);
-    popupProfileEdit.closePopup();
+function submitFormPopupProfileEdit() {
+    popupProfileEdit.waitSubmitButton(true);
+    api.editUserInfo(popupName.value, popupProfession.value)
+    .then((res) => {
+        userInfo.setUserInfo(res);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+    .finally(() => {
+        popupProfileEdit.closePopup();
+        popupProfileEdit.waitSubmitButton(false);
+    })
 }
 
-//Добавить карточку места на страницу через Popup Add Place
-//Добавить Api !!!!!! ????
+//Добавить карточку места на страницу через Popup Add Place ?????
 
-function submitFormPopupAddPlace(data) {
-    const cardElement = createCard(data);
-    cardList.addItem(cardElement);
-    popupAddPlace.closePopup();
+function submitFormPopupAddPlace() {
+    popupAddPlace.waitSubmitButton(true);
+    api.addNewCard(popupPlaceTitle.value, popupPlaceLink.value)
+    .then((res) => {
+        console.log(res);
+        //const cardElement = createCard(res);
+        //cardList.addItem(cardElement);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+    .finally(() => {
+        popupAddPlace.closePopup();
+        popupAddPlace.waitSubmitButton(false);
+    })
 }
 
 //Сохранить новую аватарку и закрыть Popup Avatar Edit
-//Работает ли ???
 
 function submitFormPopupEditAvatar() {
-    profileAvatar.src = popupAvatar.value;
     popupAvatarEdit.waitSubmitButton(true);
     api.editAvatarUser(popupAvatar.value)
+    .then((res) => {
+        userInfo.setAvatar(res);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
     .finally(() => {
         popupAvatarEdit.closePopup();
         popupAvatarEdit.waitSubmitButton(false);
@@ -141,6 +171,9 @@ function submitPopupConfirm (cardElement) {
     api.deleteCard(cardElement._id)
     .then(() => {
         cardElement.removeCard();
+    })
+    .catch((err) => {
+        console.log(err);
     })
     .finally(() => {
         popupConfirm.waitSubmitButton(false);

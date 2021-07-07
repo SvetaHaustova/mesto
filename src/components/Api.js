@@ -13,22 +13,11 @@ export class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
-    //Обработать ошибку с сервера
-
-    _handleError(err) {
-        console.log(err);
-    }
-
     //Получить карточки с сервера
 
     getInitialCards() {
         return fetch(`${this._url}/cards`, { headers: this._headers })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => this._checkResponse(res))
     }
 
     //Добавить новую карточку места на сервер
@@ -42,12 +31,7 @@ export class Api {
                 link: link
             })
         })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => console.log(res))//this._checkResponse(res)
     }
 
     //Удалить карточку места
@@ -57,12 +41,7 @@ export class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => this._checkResponse(res))
     }
 
     //Поставить лайк карточке
@@ -72,12 +51,7 @@ export class Api {
             method: 'PUT',
             headers: this._headers,
         })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => this._checkResponse(res))
     }
 
     //Удалить лайк карточки
@@ -87,24 +61,14 @@ export class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => this._checkResponse(res))
     }
 
     //Получить данные пользователя
 
     getUserInfo() {
         return fetch(`${this._url}/users/me`, { headers: this._headers })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => this._checkResponse(res))
     }
 
     //Отредактировать данные пользователя
@@ -118,12 +82,7 @@ export class Api {
                 about: profession
             })
         })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => this._checkResponse(res))
     }
 
     //Отредактировать аватар пользователя
@@ -136,11 +95,6 @@ export class Api {
                 avatar: avatar
             })
         })
-        .then((res) => {
-            this._checkResponse(res);
-        })
-        .catch((err) => {
-            this._handleError(err);
-        })
+        .then((res) => this._checkResponse(res))
     }
 }

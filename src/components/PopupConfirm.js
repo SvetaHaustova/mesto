@@ -6,12 +6,17 @@ export class PopupConfirm extends Popup {
         this._handleCardDelete = handleCardDelete;
     }
 
-    setEventListeners() {
+    openPopup(card) {
+        super.openPopup();
+        this.setEventListeners(card)
+    }
+
+    setEventListeners(card) {
         super.setEventListeners();
         this._popupDeleteYesButton = this._popup.querySelector('.popup__yes-button');
         this._popupDeleteYesButton.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this._handleCardDelete(this);
+            this._handleCardDelete(card);
         });
     }
 

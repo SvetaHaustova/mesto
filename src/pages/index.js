@@ -60,8 +60,8 @@ api.getUserInfo()
 //Создать карточку
 
 function createCard(data) {
-    //const newCard = new Card(data, '#place-template', userId, handleCardClick, deleteLikeCard, likeCard, handleDeleteClick);
-    const newCard = new Card(data, '#place-template', userId, handleCardClick, handleLikeClick, handleDeleteClick);
+    const newCard = new Card(data, '#place-template', userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick);
+    //const newCard = new Card(data, '#place-template', userId, handleCardClick, handleLikeClick, handleDeleteClick);
     const cardElement = newCard.generateCard();
     return cardElement;
 }
@@ -168,11 +168,11 @@ function submitFormPopupEditAvatar() {
 
 //Удалить карточку места через Popup Confirm
 
-function submitPopupConfirm (cardElement) {
+function submitPopupConfirm (card) {
     popupConfirm.waitSubmitButton(true);
-    api.deleteCard(cardElement._id)
+    api.deleteCard(card._id)
     .then((res) => {
-        cardElement.removeCard(res);
+        card.removeCard(res);
     })
     .catch((err) => {
         console.log(err);
@@ -198,7 +198,7 @@ const popupImage = new PopupWithImage('.popup_type_view');
 popupImage.setEventListeners();
 
 const popupConfirm = new PopupConfirm(submitPopupConfirm, '.popup_type_confirm');
-popupConfirm.setEventListeners();
+//popupConfirm.setEventListeners();
 
 //Открыть Popup Image
 
@@ -208,54 +208,59 @@ function handleCardClick(cardElement) {
 
 //Открыть Popup Confirm ???
 
-function handleDeleteClick(cardElement) {
-    popupConfirm.openPopup(cardElement);
+function handleDeleteClick(obj) {
+    console.log(obj)
+    popupConfirm.openPopup(obj);
 }
 
 //Определить, поставить лайк карточке или нет ????
 
-function handleLikeClick(cardElement) {
-    if (cardElement.likedCard()) {
-        api.addLikeCard(cardElement._id)
-        .then((res) => {
-            console.log(res)
-            //cardElement.handleLikeCard(res)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    } else {
-        api.deleteLikeCard(cardElement._id)
-        .then((res) => {
-            //console.log(res)
-            cardElement.handleLikeCard(res)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
+// function handleLikeClick(cardElement) {
+//     if (cardElement.likedCard()) {
+//         api.addLikeCard(cardElement._id)
+//         .then((res) => {
+//             console.log(res)
+//             //cardElement.handleLikeCard(res)
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         })
+//     } else {
+//         api.deleteLikeCard(cardElement._id)
+//         .then((res) => {
+//             //console.log(res)
+//             cardElement.handleLikeCard(res)
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         })
+//     }
+// }
+
+const deleteLikeCard = (id, renderLike) => {
+    //console.log('FFFFFF')
+    api.deleteLikeCard(id)
+    .then((res) => {
+        renderLike(res.likes);
+        //console.log(res)
+        return res;
+        //cardElement.renderLikes(res)
+    })
 }
 
-// //const deleteLikeCard = (id, cardElement) => {
-// const deleteLikeCard = (cardElement) => {
-//     api.deleteLikeCard(cardElement)
-//     .then((res) => {
-//         //console.log(res)
-//         return res;
-//         //cardElement.renderLikes(res)
-//     })
-// }
-
-// //const addLikeCard = (id, cardElement) => {
-// const addLikeCard = (cardElement) => {
-//     console.log(cardElement)
-//     api.addLikeCard(cardElement)
-//     .then((res) => {
-//     //    console.log(res)
-//         return res;
-//         //cardElement.renderLikes(res)
-//     })
-// }
+//const addLikeCard = (id, cardElement) => {
+const addLikeCard = (id, renderLike) => {
+    //console.log(card)
+    //console.log(cardElement)
+    api.addLikeCard(id)
+    .then((res) => {
+        console.log(res)
+        renderLike(res.likes);
+    //    console.log(res)
+        return res;
+        //cardElement.renderLikes(res)
+    })
+}
 
 //Провести валидацию форм Popup Profile Edit, Popup Add Place, Popup Avatar Edit
 

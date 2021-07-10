@@ -1,7 +1,7 @@
 export class 
 Card {
-    //constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick) {
-    constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, handleLikeClick, handleDeleteClick) {    
+    constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick) {
+    //constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, handleLikeClick, handleDeleteClick) {    
         this._cardSelector = cardSelector;
         this._name = name;
         this._link = link;
@@ -10,10 +10,10 @@ Card {
         this._id = _id;
         this._userId = userId;
         this._handleCardClick = handleCardClick;
-        this._handleLikeClick = handleLikeClick;
+        //this._handleLikeClick = handleLikeClick;
         this._handleDeleteClick = handleDeleteClick; 
-        // this._deleteLikeCard = deleteLikeCard;
-        // this._addLikeCard = addLikeCard;
+        this._deleteLikeCard = deleteLikeCard;
+        this._addLikeCard = addLikeCard;
     }
 
     //Сформировать карточку места
@@ -35,8 +35,8 @@ Card {
             this._deleteButton.remove();
         }
         
-        this.handleLikeCard();
-        //this.renderLikes();
+        //this.handleLikeCard();
+        this.renderLikes(this._likes);
         this._setEventListeners();
 
         this._placeTitle.textContent = this._name;
@@ -48,16 +48,16 @@ Card {
 
     //Определить, есть ли среди лайкнувших данный юзер
 
-    likedCard() {
-        return this._likes.some((user) => {
+    _likedCard(likes) {
+        return likes?.some((user) => {
             return user._id === this._userId
         })
     }
 
     //Закрасить лайк, если юзер лайкнул карточку
 
-    showLikes() {
-        if (this.likedCard(this._userId)) {
+    showLikes(likes) {
+        if (this._likedCard(likes)) {
             this._likeButton.classList.add('place__like_active');
         } else {
             this._likeButton.classList.remove('place__like_active');
@@ -66,39 +66,44 @@ Card {
 
     //Обновить счетчик лайков
 
-    countLikes() {
-        this._likeCounter.textContent = this._likes.length;
-    }
+    // countLikes() {
+    //     this._likeCounter.textContent = this._likes.length;
+    // }
 
-    handleLikeCard(card) {
-        if (this.likedCard(this._userId)) {
-            this.showLikes();
-            this.countLikes(card);
-        } else {
-            this.showLikes();
-            this.countLikes(card);
-        }
-    }
-
-    // _handleLikeClick() {
-    //     //console.log(this._element)
-    //     if (this._likedCard()) {
-    //         this._deleteLikeCard(this._element)
-    //         //this._deleteLikeCard(this._id, this._element)
-    //         //const X = this._deleteLikeCard(this._id, this._element)
-    //         //console.log(X)
+    // handleLikeCard(card) {
+    //     if (this.likedCard(this._userId)) {
+    //         this.showLikes();
+    //         this.countLikes(card);
     //     } else {
-    //         this._addLikeCard(this._element)
-    //         //this._addLikeCard(this._id, this._element)
+    //         this.showLikes();
+    //         this.countLikes(card);
     //     }
     // }
 
+    _handleLikeClick() {
+        //console.log(this._element)
+        if (this._likedCard(this._likes)) {
+            this._deleteLikeCard(this._id, this.renderLikes)
+            //this._deleteLikeCard(this._id, this._element)
+            //const X = this._deleteLikeCard(this._id, this._element)
+            //console.log(X)
+        } else {
+            this._addLikeCard(this._id, this.renderLikes)
+            //this._addLikeCard(this._id, this._element)
+        }
+    }
+
     // Отобразить количество лайков
 
-    // renderLikes() {
-    //     this._likeCounter.textContent = this._likes.length;
-    //     this.showLikes();
-    // }
+    renderLikes = (likes) => {
+        //this._likeCounter.textContent = this._likes.length;
+        console.log(likes)
+        this._likes = likes;
+        //const count = likes ? likes.length : 0;
+        //cardElement.querySelector('.place__like-counter').textContent = likes?.length;
+        this._likeCounter.textContent = likes?.length;
+        this.showLikes(likes);
+    }
 
     removeCard() {
         this._element.closest('.place').remove();
@@ -106,7 +111,7 @@ Card {
 
     _setEventListeners() {
         this._likeButton.addEventListener('click', () => {
-            this._handleLikeClick(this);
+            this._handleLikeClick();
             //this.renderLikes(this._element);
         });
         this._deleteButton.addEventListener('click', () => {

@@ -30,7 +30,7 @@ const popupAvatar = document.querySelector('.popup__input_type_avatar');
 const popupPlaceTitle = document.querySelector('.popup__input_type_title');
 const popupPlaceLink = document.querySelector('.popup__input_type_link');
 const buttonOpenPopupAvatarEdit = document.querySelector('.profile__avatar-edit');
-const userId = 'a7473b4e-4df8-4060-a905-03a96de8bd8c';
+let userId;
 
 //ФУНКЦИИ
 
@@ -48,6 +48,8 @@ const api = new Api({
 
 api.getUserInfo()
 .then((res) => {
+    //console.log(res);
+    userId = res._id;
     userInfo.setUserInfo(res);
     userInfo.setAvatar(res);
 })
@@ -58,6 +60,7 @@ api.getUserInfo()
 //Создать карточку
 
 function createCard(data) {
+    //const newCard = new Card(data, '#place-template', userId, handleCardClick, deleteLikeCard, likeCard, handleDeleteClick);
     const newCard = new Card(data, '#place-template', userId, handleCardClick, handleLikeClick, handleDeleteClick);
     const cardElement = newCard.generateCard();
     return cardElement;
@@ -108,7 +111,7 @@ function openPopupAddPlace() {
 function openPopupEditAvatar() {
     popupAvatarEdit.openPopup();
     validFormPopupEditAvatar.toggleButtonState();
-    validFormPopupEditAvatar.resetErrorElement(); //вопрос как сделать правильный текст для ошибки или его не делать
+    validFormPopupEditAvatar.resetErrorElement();
 }
 
 //Сохранить отредактированные данные и закрыть Popup Profile Edit
@@ -128,15 +131,14 @@ function submitFormPopupProfileEdit() {
     })
 }
 
-//Добавить карточку места на страницу через Popup Add Place ?????
+//Добавить карточку места на страницу через Popup Add Place
 
 function submitFormPopupAddPlace() {
     popupAddPlace.waitSubmitButton(true);
     api.addNewCard(popupPlaceTitle.value, popupPlaceLink.value)
     .then((res) => {
-        console.log(res);
-        //const cardElement = createCard(res);
-        //cardList.addItem(cardElement);
+        const cardElement = createCard(res);
+        cardList.addItem(cardElement);
     })
     .catch((err) => {
         console.log(err);
@@ -176,6 +178,7 @@ function submitPopupConfirm (cardElement) {
         console.log(err);
     })
     .finally(() => {
+        popupConfirm.closePopup();
         popupConfirm.waitSubmitButton(false);
     })
 }
@@ -203,27 +206,56 @@ function handleCardClick(cardElement) {
     popupImage.openPopup(cardElement);
 }
 
-//Открыть Popup Confirm
+//Открыть Popup Confirm ???
 
 function handleDeleteClick(cardElement) {
     popupConfirm.openPopup(cardElement);
 }
 
-//Определить, поставить лайк карточке или нет !!! Правильно ли????
+//Определить, поставить лайк карточке или нет ????
 
 function handleLikeClick(cardElement) {
     if (cardElement.likedCard()) {
-        api.deleteLikeCard(cardElement._id)
+        api.addLikeCard(cardElement._id)
         .then((res) => {
-            cardElement.renderLikes(res)
+            console.log(res)
+            //cardElement.handleLikeCard(res)
+        })
+        .catch((err) => {
+            console.log(err);
         })
     } else {
-        api.likeCard(cardElement._id)
+        api.deleteLikeCard(cardElement._id)
         .then((res) => {
-            cardElement.renderLikes(res)
+            //console.log(res)
+            cardElement.handleLikeCard(res)
+        })
+        .catch((err) => {
+            console.log(err);
         })
     }
 }
+
+// //const deleteLikeCard = (id, cardElement) => {
+// const deleteLikeCard = (cardElement) => {
+//     api.deleteLikeCard(cardElement)
+//     .then((res) => {
+//         //console.log(res)
+//         return res;
+//         //cardElement.renderLikes(res)
+//     })
+// }
+
+// //const addLikeCard = (id, cardElement) => {
+// const addLikeCard = (cardElement) => {
+//     console.log(cardElement)
+//     api.addLikeCard(cardElement)
+//     .then((res) => {
+//     //    console.log(res)
+//         return res;
+//         //cardElement.renderLikes(res)
+//     })
+// }
 
 //Провести валидацию форм Popup Profile Edit, Popup Add Place, Popup Avatar Edit
 

@@ -31,7 +31,7 @@ export class Api {
                 link: link
             })
         })
-        .then((res) => console.log(res))//this._checkResponse(res)
+        .then((res) => this._checkResponse(res))
     }
 
     //Удалить карточку места
@@ -46,7 +46,7 @@ export class Api {
 
     //Поставить лайк карточке
 
-    likeCard(cardId) {
+    addLikeCard(cardId) {
         return fetch(`${this._url}/cards/likes/${cardId}`, {
             method: 'PUT',
             headers: this._headers,

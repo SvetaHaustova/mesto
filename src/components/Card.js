@@ -1,14 +1,19 @@
-export class Card {
-    constructor({ name, link, owner, likes }, cardSelector, userId, handleCardClick, handleLikeClick, handleDeleteClick) {
+export class 
+Card {
+    //constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick) {
+    constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, handleLikeClick, handleDeleteClick) {    
         this._cardSelector = cardSelector;
         this._name = name;
         this._link = link;
-        //this._ownerId = owner._id;
+        this._ownerId = owner._id;
         this._likes = likes;
+        this._id = _id;
         this._userId = userId;
         this._handleCardClick = handleCardClick;
         this._handleLikeClick = handleLikeClick;
         this._handleDeleteClick = handleDeleteClick; 
+        // this._deleteLikeCard = deleteLikeCard;
+        // this._addLikeCard = addLikeCard;
     }
 
     //Сформировать карточку места
@@ -30,7 +35,8 @@ export class Card {
             this._deleteButton.remove();
         }
         
-        this._renderLikes();
+        this.handleLikeCard();
+        //this.renderLikes();
         this._setEventListeners();
 
         this._placeTitle.textContent = this._name;
@@ -44,7 +50,7 @@ export class Card {
 
     likedCard() {
         return this._likes.some((user) => {
-            return user.id === this._userId
+            return user._id === this._userId
         })
     }
 
@@ -58,16 +64,41 @@ export class Card {
         }
     }
 
-    // Отобразить количество лайков
+    //Обновить счетчик лайков
 
-    renderLikes() {
+    countLikes() {
         this._likeCounter.textContent = this._likes.length;
-        this.showLikes(this._userId);
     }
 
-    //_likeCard() {
-    //    this._likeButton.classList.toggle('place__like_active');
-    //}
+    handleLikeCard(card) {
+        if (this.likedCard(this._userId)) {
+            this.showLikes();
+            this.countLikes(card);
+        } else {
+            this.showLikes();
+            this.countLikes(card);
+        }
+    }
+
+    // _handleLikeClick() {
+    //     //console.log(this._element)
+    //     if (this._likedCard()) {
+    //         this._deleteLikeCard(this._element)
+    //         //this._deleteLikeCard(this._id, this._element)
+    //         //const X = this._deleteLikeCard(this._id, this._element)
+    //         //console.log(X)
+    //     } else {
+    //         this._addLikeCard(this._element)
+    //         //this._addLikeCard(this._id, this._element)
+    //     }
+    // }
+
+    // Отобразить количество лайков
+
+    // renderLikes() {
+    //     this._likeCounter.textContent = this._likes.length;
+    //     this.showLikes();
+    // }
 
     removeCard() {
         this._element.closest('.place').remove();
@@ -75,10 +106,11 @@ export class Card {
 
     _setEventListeners() {
         this._likeButton.addEventListener('click', () => {
-            this._handleLikeClick();
+            this._handleLikeClick(this);
+            //this.renderLikes(this._element);
         });
         this._deleteButton.addEventListener('click', () => {
-            this._handleDeleteClick(this._element);
+            this._handleDeleteClick(this);
         });
         this._placePhoto.addEventListener('click', () => {
             this._handleCardClick(this._element);

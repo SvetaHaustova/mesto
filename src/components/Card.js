@@ -1,7 +1,6 @@
 export class 
 Card {
-    constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick) {
-    //constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, handleLikeClick, handleDeleteClick) {    
+    constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick) {  
         this._cardSelector = cardSelector;
         this._name = name;
         this._link = link;
@@ -10,7 +9,6 @@ Card {
         this._id = _id;
         this._userId = userId;
         this._handleCardClick = handleCardClick;
-        //this._handleLikeClick = handleLikeClick;
         this._handleDeleteClick = handleDeleteClick; 
         this._deleteLikeCard = deleteLikeCard;
         this._addLikeCard = addLikeCard;
@@ -35,7 +33,6 @@ Card {
             this._deleteButton.remove();
         }
         
-        //this.handleLikeCard();
         this.renderLikes(this._likes);
         this._setEventListeners();
 
@@ -64,43 +61,18 @@ Card {
         }
     }
 
-    //Обновить счетчик лайков
-
-    // countLikes() {
-    //     this._likeCounter.textContent = this._likes.length;
-    // }
-
-    // handleLikeCard(card) {
-    //     if (this.likedCard(this._userId)) {
-    //         this.showLikes();
-    //         this.countLikes(card);
-    //     } else {
-    //         this.showLikes();
-    //         this.countLikes(card);
-    //     }
-    // }
-
     _handleLikeClick() {
-        //console.log(this._element)
         if (this._likedCard(this._likes)) {
             this._deleteLikeCard(this._id, this.renderLikes)
-            //this._deleteLikeCard(this._id, this._element)
-            //const X = this._deleteLikeCard(this._id, this._element)
-            //console.log(X)
         } else {
             this._addLikeCard(this._id, this.renderLikes)
-            //this._addLikeCard(this._id, this._element)
         }
     }
 
     // Отобразить количество лайков
 
     renderLikes = (likes) => {
-        //this._likeCounter.textContent = this._likes.length;
-        console.log(likes)
         this._likes = likes;
-        //const count = likes ? likes.length : 0;
-        //cardElement.querySelector('.place__like-counter').textContent = likes?.length;
         this._likeCounter.textContent = likes?.length;
         this.showLikes(likes);
     }
@@ -112,7 +84,6 @@ Card {
     _setEventListeners() {
         this._likeButton.addEventListener('click', () => {
             this._handleLikeClick();
-            //this.renderLikes(this._element);
         });
         this._deleteButton.addEventListener('click', () => {
             this._handleDeleteClick(this);

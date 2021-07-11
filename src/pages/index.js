@@ -2,16 +2,18 @@ import './index.css';
 
 import { 
     config,
-    //popupProfileEdit,
-    buttonOpenPopupProfileEdit,
     popupName,
     popupProfession,
-    //popupAddPlace,
+    popupAvatar,
+    popupPlaceTitle,
+    popupPlaceLink,
     formPopupProfileEdit,
     formPopupAddPlace,
-    buttonOpenPopupAddPlace
+    formPopupAvatarEdit,
+    buttonOpenPopupProfileEdit,
+    buttonOpenPopupAddPlace,
+    buttonOpenPopupAvatarEdit
 } from '../utils/constants.js';
-//import { initialCards } from '../utils/initialCards.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { UserInfo } from '../components/UserInfo.js';
@@ -19,17 +21,8 @@ import { Section } from '../components/Section.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupConfirm } from '../components/PopupConfirm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
-//import { Popup } from '../components/Popup';
 import { Api } from '../components/Api.js';
 
-const formPopupAvatarEdit = document.querySelector('.popup__form_type_avatar');
-//const profileName = document.querySelector(config.profileNameSelector);
-//const profileProfession = document.querySelector(config.profileProfessionSelector);
-//const profileAvatar = document.querySelector(config.profileAvatarSelector);
-const popupAvatar = document.querySelector('.popup__input_type_avatar');
-const popupPlaceTitle = document.querySelector('.popup__input_type_title');
-const popupPlaceLink = document.querySelector('.popup__input_type_link');
-const buttonOpenPopupAvatarEdit = document.querySelector('.profile__avatar-edit');
 let userId;
 
 //ФУНКЦИИ
@@ -48,7 +41,6 @@ const api = new Api({
 
 api.getUserInfo()
 .then((res) => {
-    //console.log(res);
     userId = res._id;
     userInfo.setUserInfo(res);
     userInfo.setAvatar(res);
@@ -61,7 +53,6 @@ api.getUserInfo()
 
 function createCard(data) {
     const newCard = new Card(data, '#place-template', userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick);
-    //const newCard = new Card(data, '#place-template', userId, handleCardClick, handleLikeClick, handleDeleteClick);
     const cardElement = newCard.generateCard();
     return cardElement;
 }
@@ -198,67 +189,34 @@ const popupImage = new PopupWithImage('.popup_type_view');
 popupImage.setEventListeners();
 
 const popupConfirm = new PopupConfirm(submitPopupConfirm, '.popup_type_confirm');
-//popupConfirm.setEventListeners();
 
 //Открыть Popup Image
 
-function handleCardClick(cardElement) {
-    popupImage.openPopup(cardElement);
+function handleCardClick(card) {
+    popupImage.openPopup(card);
 }
 
-//Открыть Popup Confirm ???
+//Открыть Popup Confirm
 
-function handleDeleteClick(obj) {
-    console.log(obj)
-    popupConfirm.openPopup(obj);
+function handleDeleteClick(card) {
+    popupConfirm.openPopup(card);
 }
 
-//Определить, поставить лайк карточке или нет ????
-
-// function handleLikeClick(cardElement) {
-//     if (cardElement.likedCard()) {
-//         api.addLikeCard(cardElement._id)
-//         .then((res) => {
-//             console.log(res)
-//             //cardElement.handleLikeCard(res)
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-//     } else {
-//         api.deleteLikeCard(cardElement._id)
-//         .then((res) => {
-//             //console.log(res)
-//             cardElement.handleLikeCard(res)
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-//     }
-// }
+//Удалить лайк у карточки
 
 const deleteLikeCard = (id, renderLike) => {
-    //console.log('FFFFFF')
     api.deleteLikeCard(id)
     .then((res) => {
         renderLike(res.likes);
-        //console.log(res)
-        return res;
-        //cardElement.renderLikes(res)
     })
 }
 
-//const addLikeCard = (id, cardElement) => {
+//Поставить лайк карточке
+
 const addLikeCard = (id, renderLike) => {
-    //console.log(card)
-    //console.log(cardElement)
     api.addLikeCard(id)
     .then((res) => {
-        console.log(res)
         renderLike(res.likes);
-    //    console.log(res)
-        return res;
-        //cardElement.renderLikes(res)
     })
 }
 

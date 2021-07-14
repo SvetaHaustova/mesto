@@ -27,7 +27,7 @@ export class PopupConfirm extends Popup {
         if (isLoading) {
             this._popupDeleteYesButton.textContent = 'Удаление...';
         } else {
-            this._popupDeleteYesButton.textContent = this._popupSubmitButtonTextDefault;
+            this._popupDeleteYesButton.textContent = this._popupDeleteYesButtonTextDefault;
         }
     }
 }

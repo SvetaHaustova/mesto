@@ -23,11 +23,8 @@ export const popupProfession = document.querySelector('.popup__input_type_profes
 
 export const formPopupAddPlace = document.querySelector('.popup__form_type_add');
 export const buttonOpenPopupAddPlace = document.querySelector('.profile__add-button');
-export const popupPlaceTitle = document.querySelector('.popup__input_type_title');
-export const popupPlaceLink = document.querySelector('.popup__input_type_link');
 
 //Переменные для Popup Profile Avatar
 
 export const formPopupAvatarEdit = document.querySelector('.popup__form_type_avatar');
-export const popupAvatar = document.querySelector('.popup__input_type_avatar');
 export const buttonOpenPopupAvatarEdit = document.querySelector('.profile__avatar-edit');

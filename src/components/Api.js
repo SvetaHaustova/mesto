@@ -22,7 +22,7 @@ export class Api {
 
     //Добавить новую карточку места на сервер
 
-    addNewCard(name, link) {
+    addNewCard({ name, link }) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: this._headers,
@@ -73,7 +73,7 @@ export class Api {
 
     //Отредактировать данные пользователя
 
-    editUserInfo(name, profession) {
+    editUserInfo({ name, profession }) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
@@ -87,7 +87,8 @@ export class Api {
 
     //Отредактировать аватар пользователя
 
-    editAvatarUser(avatar) {
+    //editAvatarUser(avatar) {
+    editAvatarUser({ avatar }) {    
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,

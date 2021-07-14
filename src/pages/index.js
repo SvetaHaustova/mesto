@@ -4,9 +4,6 @@ import {
     config,
     popupName,
     popupProfession,
-    popupAvatar,
-    popupPlaceTitle,
-    popupPlaceLink,
     formPopupProfileEdit,
     formPopupAddPlace,
     formPopupAvatarEdit,
@@ -37,18 +34,6 @@ const api = new Api({
     }
 });
 
-//Получить данные пользователя с сервера
-
-api.getUserInfo()
-.then((res) => {
-    userId = res._id;
-    userInfo.setUserInfo(res);
-    userInfo.setAvatar(res);
-})
-.catch((err) => {
-    console.log(err);
-})
-
 //Создать карточку
 
 function createCard(data) {
@@ -57,7 +42,7 @@ function createCard(data) {
     return cardElement;
 }
 
-//Вывести массив карточек на страницу
+//Создать массив карточек
 
 const cardList = new Section({
     renderer: (item) => {
@@ -66,18 +51,22 @@ const cardList = new Section({
     }
 }, '.elements__list');
 
+//Сформировать объект с данными пользователя
 
-api.getInitialCards()
-.then((res) => {
-    cardList.renderer(res)
+const userInfo = new UserInfo(config);
+
+//Получить данные пользователя с сервера и Вывести массив карточек на страницу
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+.then(([user, cards]) => {
+    userId = user._id;
+    userInfo.setUserInfo(user);
+    userInfo.setAvatar(user);
+    cardList.renderer(cards);
 })
 .catch((err) => {
     console.log(err);
 })
-
-//Сформировать объект с данными пользователя
-
-const userInfo = new UserInfo(config);
 
 //Открыть Popup Profile Edit и заполнить текущими значениями полей Profile
 
@@ -107,52 +96,52 @@ function openPopupEditAvatar() {
 
 //Сохранить отредактированные данные и закрыть Popup Profile Edit
 
-function submitFormPopupProfileEdit() {
+function submitFormPopupProfileEdit(formValues) {
     popupProfileEdit.waitSubmitButton(true);
-    api.editUserInfo(popupName.value, popupProfession.value)
+    api.editUserInfo({ name: formValues.name, profession: formValues.profession })
     .then((res) => {
         userInfo.setUserInfo(res);
+        popupProfileEdit.closePopup();
     })
     .catch((err) => {
         console.log(err);
     })
     .finally(() => {
-        popupProfileEdit.closePopup();
         popupProfileEdit.waitSubmitButton(false);
     })
 }
 
 //Добавить карточку места на страницу через Popup Add Place
 
-function submitFormPopupAddPlace() {
+function submitFormPopupAddPlace(formValues) {
     popupAddPlace.waitSubmitButton(true);
-    api.addNewCard(popupPlaceTitle.value, popupPlaceLink.value)
+    api.addNewCard({ name: formValues.name, link: formValues.link })
     .then((res) => {
         const cardElement = createCard(res);
         cardList.addItem(cardElement);
+        popupAddPlace.closePopup();
     })
     .catch((err) => {
         console.log(err);
     })
     .finally(() => {
-        popupAddPlace.closePopup();
         popupAddPlace.waitSubmitButton(false);
     })
 }
 
 //Сохранить новую аватарку и закрыть Popup Avatar Edit
 
-function submitFormPopupEditAvatar() {
+function submitFormPopupEditAvatar(formValues) {
     popupAvatarEdit.waitSubmitButton(true);
-    api.editAvatarUser(popupAvatar.value)
+    api.editAvatarUser({ avatar: formValues.avatar })
     .then((res) => {
         userInfo.setAvatar(res);
+        popupAvatarEdit.closePopup();
     })
     .catch((err) => {
         console.log(err);
     })
     .finally(() => {
-        popupAvatarEdit.closePopup();
         popupAvatarEdit.waitSubmitButton(false);
     })
 }
@@ -164,31 +153,15 @@ function submitPopupConfirm (card) {
     api.deleteCard(card._id)
     .then((res) => {
         card.removeCard(res);
+        popupConfirm.closePopup();
     })
     .catch((err) => {
         console.log(err);
     })
     .finally(() => {
-        popupConfirm.closePopup();
         popupConfirm.waitSubmitButton(false);
     })
 }
-
-//Создать Popups со слушателями
-
-const popupProfileEdit = new PopupWithForm(submitFormPopupProfileEdit, '.popup_type_edit');
-popupProfileEdit.setEventListeners();
-
-const popupAddPlace = new PopupWithForm(submitFormPopupAddPlace, '.popup_type_add');
-popupAddPlace.setEventListeners();
-
-const popupAvatarEdit = new PopupWithForm(submitFormPopupEditAvatar, '.popup_type_avatar');
-popupAvatarEdit.setEventListeners();
-
-const popupImage = new PopupWithImage('.popup_type_view');
-popupImage.setEventListeners();
-
-const popupConfirm = new PopupConfirm(submitPopupConfirm, '.popup_type_confirm');
 
 //Открыть Popup Image
 
@@ -209,6 +182,9 @@ const deleteLikeCard = (id, renderLike) => {
     .then((res) => {
         renderLike(res.likes);
     })
+    .catch((err) => {
+        console.log(err);
+    })
 }
 
 //Поставить лайк карточке
@@ -218,7 +194,27 @@ const addLikeCard = (id, renderLike) => {
     .then((res) => {
         renderLike(res.likes);
     })
+    .catch((err) => {
+        console.log(err);
+    })
 }
+
+//Создать Popups со слушателями
+
+const popupProfileEdit = new PopupWithForm(submitFormPopupProfileEdit, '.popup_type_edit');
+popupProfileEdit.setEventListeners();
+
+const popupAddPlace = new PopupWithForm(submitFormPopupAddPlace, '.popup_type_add');
+popupAddPlace.setEventListeners();
+
+const popupAvatarEdit = new PopupWithForm(submitFormPopupEditAvatar, '.popup_type_avatar');
+popupAvatarEdit.setEventListeners();
+
+const popupImage = new PopupWithImage('.popup_type_view');
+popupImage.setEventListeners();
+
+const popupConfirm = new PopupConfirm(submitPopupConfirm, '.popup_type_confirm');
+popupConfirm.setEventListeners();
 
 //Провести валидацию форм Popup Profile Edit, Popup Add Place, Popup Avatar Edit
 

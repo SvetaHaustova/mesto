@@ -8,8 +8,6 @@ export class PopupConfirm extends Popup {
         this._popupDeleteYesButtonTextDefault = this._popupDeleteYesButton.textContent;
     }
 
-
-
     openPopup(card) {
         super.openPopup();
         this._card = card;

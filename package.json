@@ -1,7 +1,7 @@
 {
   "name": "mesto",
   "version": "0.0.1",
-  "description": "Данный проект создан в рамках обучения на веб-факультете в Яндекс Практикуме. Проект создан с адаптацией под различные разрешения экранов, начиная от 320px. С этого проекта началось изучение JavaScript. Проект Вы можете посмотреть по [ссылке](https://svetahaustova.github.io/mesto/index.html).",
+  "description": "Данный проект создан в рамках обучения на веб-факультете в Яндекс Практикуме. Проект создан с адаптацией под различные разрешения экранов, начиная от 320px. С этого проекта началось изучение JavaScript. Проект Вы можете посмотреть по [ссылке](https://svetlanassi.github.io/mesto/index.html).",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SvetaHaustova/mesto.git"
+    "url": "git+https://github.com/svetlanassi/mesto.git"
   },
-  "author": "Sveta Khaustova",
+  "author": "Sveta Zakharova",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SvetaHaustova/mesto/issues"
+    "url": "https://github.com/svetlanassi/mesto/issues"
   },
-  "homepage": "https://github.com/SvetaHaustova/mesto#readme",
+  "homepage": "https://github.com/svetlanassi/mesto#readme",
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.5",

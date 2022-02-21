@@ -1,5 +1,4 @@
-export class 
-Card {
+export class Card {
     constructor({ name, link, owner, likes, _id }, cardSelector, userId, handleCardClick, deleteLikeCard, addLikeCard, handleDeleteClick) {  
         this._cardSelector = cardSelector;
         this._name = name;

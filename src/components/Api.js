@@ -87,7 +87,6 @@ export class Api {
 
     //Отредактировать аватар пользователя
 
-    //editAvatarUser(avatar) {
     editAvatarUser({ avatar }) {    
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
